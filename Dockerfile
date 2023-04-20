@@ -1,7 +1,13 @@
-FROM python:3.7
+FROM python:3.10.1
 
-WORKDIR /drayford/fastapiproject/api
+WORKDIR /code
 
-ADD . /drayford/fastapiproject/api
+COPY ./requirements.txt /code/requirements.txt
 
-CMD ["python", "hello.py"]
+RUN pip install --upgrade pip && pip install -t /todos/requirements.txt
+
+EXPOSE 8080
+
+COPY ./todos /code/app
+
+CMD ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "80"]
